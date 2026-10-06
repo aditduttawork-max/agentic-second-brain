@@ -1,0 +1,25 @@
+# Claude Code / runtime
+_system/claude_queue/pending/
+_system/claude_queue/processing/
+_system/claude_queue/needs_approval/
+_system/claude_queue/completed/
+_system/claude_queue/failed/
+
+# Local/private configuration
+.env
+.env.*
+*.session
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Generated outputs
+60_outputs/
+
+# Backups and temporary test artifacts
+_system/backup_*/
+_system/test_*/

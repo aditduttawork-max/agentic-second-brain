@@ -1,0 +1,105 @@
+% Pandoc LaTeX template for SUMMARIZE PDFs.
+% Used by .claude/commands/summarize.md with summary_filter.lua.
+% Layout: A4, 2 cm margins, Nirmala UI 10 pt, page numbers in footer.
+% Page-1 sections use "##". "# Sources" is the only level-1 heading,
+% and every level-1 heading starts a new page.
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper,margin=2cm]{geometry}
+
+% Fonts
+\usepackage{fontspec}
+\setmainfont{Nirmala UI}
+\setsansfont{Nirmala UI}
+\setmonofont{Nirmala UI}
+
+% Fallback for symbols Nirmala UI does not contain (arrows, etc.)
+\newfontfamily\symbolfallback{Segoe UI Symbol}
+\usepackage{newunicodechar}
+\newunicodechar{→}{{\symbolfallback →}}
+\newunicodechar{←}{{\symbolfallback ←}}
+\newunicodechar{↑}{{\symbolfallback ↑}}
+\newunicodechar{↓}{{\symbolfallback ↓}}
+\newunicodechar{↔}{{\symbolfallback ↔}}
+\newunicodechar{⇒}{{\symbolfallback ⇒}}
+\newunicodechar{≈}{{\symbolfallback ≈}}
+\newunicodechar{≤}{{\symbolfallback ≤}}
+\newunicodechar{≥}{{\symbolfallback ≥}}
+\newunicodechar{✓}{{\symbolfallback ✓}}
+
+% Layout helpers
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+$if(strikeout)$
+\usepackage[normalem]{ulem}
+$endif$
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% Paragraphs: no indent, small gap, ragged right, no hyphenation
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\emergencystretch}{3em}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\AtBeginDocument{\RaggedRight}
+
+% Footer page numbers only
+\pagestyle{plain}
+
+% Headings: no numbers, compact spacing
+\setcounter{secnumdepth}{-\maxdimen}
+\titleformat{\section}{\normalfont\large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0pt}{4pt}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{7pt}{2pt}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\subsubsection}{0pt}{5pt}{1pt}
+\pretocmd{\section}{\clearpage}{}{}
+
+% Lists: compact
+\setlist{nosep,topsep=1pt,leftmargin=*}
+
+% Tables (built with full borders by summary_filter.lua)
+\setlength{\LTpre}{3pt}
+\setlength{\LTpost}{3pt}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt plus 1fill}
+\renewcommand{\arraystretch}{1.15}
+
+% Obsidian callouts (built by summary_filter.lua)
+\newtcolorbox{callout}[1]{breakable,colback=black!3,colframe=black!45,
+  colbacktitle=black!10,coltitle=black,fonttitle=\bfseries\small,
+  boxrule=0.6pt,arc=1pt,left=4pt,right=4pt,top=2pt,bottom=2pt,
+  before skip=4pt,after skip=4pt,title={#1}}
+
+% Pandoc helpers
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\providecommand{\passthrough}[1]{#1}
+
+\begin{document}
+
+% Compact title and date header
+{\Large\bfseries $title$\par}
+\vspace{1pt}
+{\small $date$\par}
+\vspace{3pt}
+\hrule
+\vspace{6pt}
+
+$body$
+
+\end{document}
